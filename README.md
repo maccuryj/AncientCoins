@@ -3,7 +3,7 @@ Ancient Coin Analysis
 
 
 This repository provides classes and functions to conduct deep learning analyses
-on ancient coins as stored in a private Database.
+on ancient coins Aas stored in a private Database.
 
 ## Installation
 
