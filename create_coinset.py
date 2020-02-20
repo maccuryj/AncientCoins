@@ -15,7 +15,7 @@ from skimage import io, transform
 
 conn = sql.connect(**cf.config)
 
-coin_query = CoinQuery(conn, side='front', coin_type='original', n_max=np.inf)
+coin_query = CoinQuery(conn)
 coin_query.create_dataset()
 
 conn.close()
