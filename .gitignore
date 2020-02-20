@@ -1,2 +1,3 @@
-#Ignore image files
-*.jpg
+#Ignore the filled database configuration
+config.py
+

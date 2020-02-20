@@ -1,5 +1,5 @@
 config = {
-    "host":"",
+    "host":"localhost",
     "user":"",
     "password":"",
     "db":"",
