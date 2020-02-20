@@ -24,17 +24,16 @@ class AncientCoins():
         self.root_dir = root_dir     
         self.labels = labels
 
+        #Stratified train test split
         self.train_X, self.test_X, self.train_y, self.test_y = train_test_split(X, y, test_size=test_size, stratify=y)
+        #Create training and validation set as defined in CoinsDataset
         self.trainset, self.valset = self.get_datasets()
+        #Create PyTorch Dataloaders for coin data
         self.trainloader = self.get_dataloaders(self.trainset, batch_size, workers, is_gpu)
         self.valloader = self.get_dataloaders(self.valset, batch_size, workers, is_gpu)
         
     def check_exists():
         return self.root_dir in os.listdir()
-
-
-    def get_labels(self):
-        return self.labels
 
     def get_datasets(self):
         trainset = CoinsDataset(self.root_dir, self.train_X, self.train_y, self.labels)
@@ -63,7 +62,7 @@ class CoinsDataset(Dataset):
         except (ValueError):
             print(os.path.join(self.root_dir, str(self.labels[self.y[idx]]), self.X[idx]))
             print(ValueError)
-            
+
         X = transforms.Compose([
             transforms.ToPILImage(),
             transforms.Resize((28,28)),
