@@ -241,7 +241,7 @@ class CoinQuery():
         return image
                 
 
-    def create_dataset(self):
+    def create_dataset(self, data_path='Coinset'):
         """
         This function creates the coin dataset in a folder of structure
         Dataset
@@ -254,8 +254,8 @@ class CoinQuery():
         Images are fetched according to the path and filename
         and formatted as described in 'image_params'
         """
-        if "Coinset" not in os.listdir():
-            os.mkdir("Coinset")
+        if data_path not in os.listdir():
+            os.mkdir(data_path)
         for k, v in self.coins.items():
             for coin in v:
                 res = None
@@ -272,11 +272,11 @@ class CoinQuery():
                 image = self.__format_image(res)
                 if image is None:
                     continue
-                if (str(k) not in os.listdir("Coinset")):
-                    os.mkdir("Coinset/" + str(k))
+                if (str(k) not in os.listdir(data_path)):
+                    os.mkdir(os.join(data_path, str(k))
 
                 try:
-                    io.imsave(os.path.join("Coinset", str(k), str(coin[0])) + ext, image)
+                    io.imsave(os.path.join(data_path, str(k), str(coin[0])) + ext, image)
                 except UserWarning:
                     continue
 
