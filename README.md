@@ -1,10 +1,9 @@
 Ancient Coin Analysis
 ====
 
-![Ancient Coin Stock Image](https://previews.123rf.com/images/claudiodivizia/claudiodivizia1312/claudiodivizia131200289/24487564-ancient-coin.jpg =50*50)
 
-This repository provides classes and functions to conduct deep learning analyses on ancient coins
-as stored in a private Database holding the data of the ... numismatic society.
+This repository provides classes and functions to conduct deep learning analyses
+on ancient coins as stored in a private Database.
 
 ## Installation
 
