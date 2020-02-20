@@ -1,9 +1,9 @@
-Ancient Coin Analysis
+Ancient Coins Clustering
 ====
 
 
 This repository provides classes and functions to conduct deep learning analyses
-on ancient coins Aas stored in a private Database.
+on ancient coins stored in a private Database.
 
 ## Installation
 
