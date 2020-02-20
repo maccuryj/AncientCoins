@@ -280,5 +280,3 @@ class CoinQuery():
                 except UserWarning:
                     continue
 
-    
-    
