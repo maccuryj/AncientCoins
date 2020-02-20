@@ -19,3 +19,9 @@ The following packages will be needed for running the script
    * PIL
    * pytorch
    * torch
+
+
+
+## Issues
+   * CoinDataset cannot yet handle coloured images
+   * Errors occur when borders are removed on coloured images
