@@ -2,15 +2,15 @@ Ancient Coins Clustering
 ====
 
 
-This repository provides classes and functions to conduct deep learning analyses
+This repository provides classes and functions to conduct a deep learning cluster analysis
 on ancient coins stored in a private Database.
 
 ## Installation
 
-When pulling this repository, you will need to fill in the configuration file *config.py*
-in order to be able to create a connection to the MySQL database.
+To run the code, you will need to fill in the configuration file *config.py*
+in order to create a connection to the MySQL database.
 
-The following packages will be needed for running the script
+The following packages are needed to run the script
    * numpy
    * pandas
    * skimage
@@ -23,5 +23,5 @@ The following packages will be needed for running the script
 
 
 ## Issues
-   * CoinDataset cannot yet handle coloured images
+   * CoinDataset cannot yet handle coloured images correctly
    * Errors occur when borders are removed on coloured images
