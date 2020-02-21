@@ -1,3 +1,4 @@
 #Ignore the filled database configuration
 config.py
 
+.vscode/settings.json

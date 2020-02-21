@@ -12,13 +12,12 @@ from skimage import io
 ### EXAMPLE CODE EXECUTION TO CREATE COIN DATALOADER ###
 
 
-# Flag that indicates whether a cuda capable GPU is available
 # Set the device to cuda if a GPU is available
 is_gpu = torch.cuda.is_available()
 device = torch.device("cuda" if is_gpu else "cpu")
 
 dataset = AncientCoins("Coinset", is_gpu)
-num_classes = len(dataset.get_labels())
+loader = dataset.trainloader
 """
 
 class AncientCoins():
