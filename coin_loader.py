@@ -8,25 +8,6 @@ import sklearn
 from sklearn.model_selection import train_test_split
 from skimage import io
 
-"""
-### EXAMPLE CODE EXECUTION TO CREATE COIN DATALOADER ###
-
-
-# Set the device to cuda if a GPU is available
-is_gpu = torch.cuda.is_available()
-device = torch.device("cuda" if is_gpu else "cpu")
-
-transform = [
-            transforms.ToPILImage(),
-            transforms.Resize((img_size,img_size)),
-            transforms.RandomHorizontalFlip(),
-            transforms.Grayscale(num_output_channels=1),
-            transforms.ToTensor()]
-
-dataset = AncientCoins("Coinset", is_gpu, transform)
-
-"""
-
 class AncientCoins():
     """
     Dataset creation class, providing on instantiation a stratified train/test split.
@@ -106,7 +87,7 @@ class CoinsDataset(Dataset):
         self.y = y
         self.root_dir = root_dir
         self.labels = labels
-        self.img_size
+        self.img_size = img_size
         self.transform = transform
         
     def __len__(self):
