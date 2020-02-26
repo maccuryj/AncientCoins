@@ -68,7 +68,6 @@ class CoinQuery():
         """
         self.conn = conn
         self.__params = {'side':side, 'coin type':coin_type, 'Minimum of coins per class':n_min, 'Maximum of coins per class':n_max}
-        self.image_params = ImageParams()
 
         if side not in ('front', 'back', 'both'):
             raise ValueError('Attribute \'side\' needs to be \'front\', \'back\' or \'both\'')
@@ -132,7 +131,7 @@ class CoinQuery():
         """
         Retrieve the coin data per class from the database according to given arguments
         """
-        coins = {}        
+        coins = {}
         query = """
                 SELECT images.CoinID, type_coin_helper.TypeID,
                 ObverseImageFilename, images.ObjectType, images.Path
@@ -154,7 +153,7 @@ class CoinQuery():
                 if len(res) < n_min:
                     continue
                 if len(res) > n_max:
-                    res[:n_max]
+                    res = res[:n_max]
                 coins[i] = res
                 i += 1
         # Both sides of coins are processed
@@ -239,9 +238,8 @@ class CoinQuery():
         image = (image*255).astype(np.uint8)   
 
         return image
-                
 
-    def create_dataset(self, data_path='Coinset'):
+    def create_dataset(self, data_path='Coinset', image_params=None):
         """
         This function creates the coin dataset in a folder of structure
         Dataset
@@ -254,6 +252,10 @@ class CoinQuery():
         Images are fetched according to the path and filename
         and formatted as described in 'image_params'
         """
+        if image_params is None:
+            self.image_params = ImageParams()
+        else: self.image_params = image_params
+
         if data_path not in os.listdir():
             os.mkdir(data_path)
         for k, v in self.coins.items():
@@ -272,8 +274,8 @@ class CoinQuery():
                 image = self.__format_image(res)
                 if image is None:
                     continue
-                if (str(k) not in os.listdir(data_path)):
-                    os.mkdir(os.join(data_path, str(k))
+                if str(k) not in os.listdir(data_path):
+                    os.mkdir(os.path.join(data_path, str(k)))
 
                 try:
                     io.imsave(os.path.join(data_path, str(k), str(coin[0])) + ext, image)
