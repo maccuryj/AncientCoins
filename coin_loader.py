@@ -16,8 +16,15 @@ from skimage import io
 is_gpu = torch.cuda.is_available()
 device = torch.device("cuda" if is_gpu else "cpu")
 
-dataset = AncientCoins("Coinset", is_gpu)
-loader = dataset.trainloader
+transform = [
+            transforms.ToPILImage(),
+            transforms.Resize((img_size,img_size)),
+            transforms.RandomHorizontalFlip(),
+            transforms.Grayscale(num_output_channels=1),
+            transforms.ToTensor()]
+
+dataset = AncientCoins("Coinset", is_gpu, transform)
+
 """
 
 class AncientCoins():
@@ -63,15 +70,15 @@ class AncientCoins():
         # Stratified train test split
         self.train_X, self.test_X, self.train_y, self.test_y = train_test_split(X, y, test_size=test_size, stratify=y)
 
-        # Create training and validation set as defined in CoinsDataset
+        #Set up default transform if none was passed
         if transform is None:
             transform = [
             transforms.ToPILImage(),
             transforms.Resize((img_size,img_size)),
-            #transforms.RandomHorizontalFlip(),
             transforms.Grayscale(num_output_channels=1),
             transforms.ToTensor()]
 
+        # Create training and validation set as defined in CoinsDataset
         self.trainset = CoinsDataset(self.root_dir, self.train_X, self.train_y, self.labels, img_size, transform)
         self.valset = CoinsDataset(self.root_dir, self.test_X, self.test_y, self.labels, img_size, transform)        
         # Create PyTorch Dataloaders for coin data
