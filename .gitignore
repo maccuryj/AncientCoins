@@ -4,3 +4,4 @@ config.py
 .vscode
 __pycache__
 .ipynb_checkpoints
+resnet_test.ipynb
