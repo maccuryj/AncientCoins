@@ -2,6 +2,7 @@ import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+from torchvision import models
 
 
 
@@ -39,6 +40,47 @@ class BasicCNN(nn.Module):
 
         return x
 
+class ResNet():
+    def __init__(self, num_classes, saved_instance=False, filename = None, l=18, freeze=7):
+        self.num_classes = num_classes
+        if l not in (18,50):
+            raise ValueError("No Resnet Model available with {0} layers".format(l))
+        if l == 18:
+            self.model = models.resnet18(pretrained=True)
+            self._fine_tune(l, freeze)
+        if l == 50:
+            self.model = models.resnet50(pretrained=True)
+            self._fine_tune(l, freeze)
+
+    def _fine_tune(self, l, freeze):
+        #Store dimension of feature output before last FC layer
+        self.num_features = self.model.fc.in_features
+        #Replace last FC layer to fit our problem
+        self.model.fc = nn.Linear(self.num_features, self.num_classes)
+        #Freeze set of layers
+        for i, child in enumerate(self.model.children()):
+            if i < freeze:
+                for p in child.parameters():
+                    p.requires_grad = False
+
+    def feature_extraction(self, dataloader):
+            modules = list(self.model.children())[:-1]
+            self.extraction_model = nn.Sequential(*modules)
+            for p in self.extraction_model.parameters():
+                p.requires_grad = False
+
+            self.extraction_model.eval()
+            output = []
+            targets = []
+            for i, (inp, target) in enumerate(dataloader):
+                output.append(self.extraction_model(inp))
+                targets.append(target)
+                
+            output = np.array(torch.cat(output)).reshape(-1, self.num_features)
+            targets = np.array(torch.cat(targets))
+
+            return output, targets
+        
 
 
 class AverageMeter(object):
@@ -125,7 +167,7 @@ class TrainModel():
 
             loss = self.criterion(output, target)
 
-            prec1, prec5 = accuracy(output, target, topk=(1, 5))
+            prec1, prec5 = accuracy(output, target, topk=(1, 2))
             losses.update(loss.item(), inp.size(0))
             top1.update(prec1.item(), inp.size(0))
 
@@ -161,7 +203,7 @@ class TrainModel():
 
                 loss = self.criterion(output, target)
 
-                prec1, _ = accuracy(output, target, topk=(1, 5))
+                prec1, _ = accuracy(output, target, topk=(1, 2))
                 losses.update(loss.item(), inp.size(0))
                 top1.update(prec1.item(), inp.size(0))
 
