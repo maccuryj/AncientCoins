@@ -41,7 +41,7 @@ class AncientCoins():
         #Pull the image classes and filenames from the data folder 
         for i, d in enumerate(os.listdir(root_dir)):
             labels[i] = int(d)
-            for f in os.listdir(os.path.join(root_dir, str(d))):       
+            for f in os.listdir(os.path.join(root_dir, str(d))):
                 X.append(f)
                 y.append(i)
         
@@ -103,4 +103,4 @@ class CoinsDataset(Dataset):
         X = transforms.Compose(self.transform)(x)
         y = self.y[idx]
 
-        return X,y
+        return idx,X,y

@@ -70,16 +70,19 @@ class ResNet():
                 p.requires_grad = False
 
             self.extraction_model.eval()
+            idxs = []
             output = []
             targets = []
-            for i, (inp, target) in enumerate(dataloader):
+            for i, (idx, inp, target) in enumerate(dataloader):
+                idxs.append(idx)
                 output.append(self.extraction_model(inp))
                 targets.append(target)
                 
+            idxs = np.array(torch.cat(idxs))
             output = np.array(torch.cat(output)).reshape(-1, self.num_features)
             targets = np.array(torch.cat(targets))
 
-            return output, targets
+            return idxs, output, targets
         
 
 
@@ -159,7 +162,7 @@ class TrainModel():
 
         self.model.train()
 
-        for i, (inp, target) in enumerate(self.train_loader):
+        for i, (idx, inp, target) in enumerate(self.train_loader):
             inp = inp.to(self.device)
             target = target.to(self.device)
 
@@ -195,7 +198,7 @@ class TrainModel():
         self.model.eval()
 
         with torch.no_grad():
-            for i, (inp, target) in enumerate(self.val_loader):
+            for i, (idx, inp, target) in enumerate(self.val_loader):
                 inp = inp.to(self.device)
                 target = target.to(self.device)
                 
